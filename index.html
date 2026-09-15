@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene cursor="rayOrigin: mouse">
+      <a-entity position="0 0.5 5">
+        <a-camera
+          wasd-controls-enabled="true"
+          look-controls-enabled="true"
+          position="0 0 0"
+        ></a-camera>
+      </a-entity>
+      <a-assets>
+        <img  id="sun-texture" src="https://cdn.glitch.com/d558c128-2ed0-4284-a0da-4d18b9163ad6%2F1024px-Map_of_the_full_sun.jpg?1540859304920" alt="">
+      </a-assets>
+
+      <!-- Sol -->
+      <a-entity position="0 8 5">
+        <a-animation attribute="rotation" to="0 -360 0" repeat="indefinite" dur="9000" easing="linear">
+        </a-animation>
+        <a-sphere id="Sol" onclick="solFuncion()">
+          <a-animation attribute="rotation" to="0 -360 0" repeat="indefinite" dur="10000" easing="linear"></a-animation>
+        </a-sphere>
+      </a-entity>
+      
+      
+
+      <!-- Lista de esferas -->
+      <script>
+
+        var spheresData = [
+          {
+            position: "0 2 -5",
+            radius: 1.5,
+            material: "side:back; src: url(https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/kloppenheim_06_puresky.jpg);",
+            link: "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/kloppenheim_06_puresky.jpg",
+            //Cielo
+            sound : "celestial-atmo-padsound-120664.mp3"
+          },
+          {
+            position: "-10.5 2 -5",
+            radius: 1.5,
+            material: "side:back; src: url(https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/castel_st_angelo_roof.jpg);",
+            link: "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/castel_st_angelo_roof.jpg",
+            
+            sound : "soft-rain-ambient-111154.mp3"
+          },
+          {
+            position: "-5 2 -5",
+            radius: 1.5,
+            material: "side:back; src: url(https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/lilienstein.jpg);",
+            link: "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/lilienstein.jpg",
+            //Campo con cesped
+            sound : "birds-19624.mp3"
+          },
+          {
+            position: "5 2 -5",
+            radius: 1.5,
+            material: "side:back; src: url(https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/dikhololo_night.jpg);",
+            link: "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/dikhololo_night.jpg",
+            //Campo rollo sabana por la noche
+            sound : "night-ambience-17064.mp3"
+          },
+          {
+            position: "5 2 -5",
+            radius: 1.5,
+            material: "side:back; src: url(https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/lauter_waterfall.jpg);",
+            link: "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/lauter_waterfall.jpg",
+            //Bosque con rio
+            sound : "forest-with-small-river-birds-and-nature-field-recording-6735.mp3"
+          },
+          {
+            position: "5 2 -5",
+            radius: 1.5,
+            material: "side:back; src: url(https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/christmas_photo_studio_05.jpg);",
+            link: "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/christmas_photo_studio_05.jpg",
+            //hoguera
+            sound : "christmas-ident-21090.mp3"
+          },
+          {
+            position: "5 2 -5",
+            radius: 1.5,
+            material: "side:back; src: url(https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/umhlanga_sunrise.jpg);",
+            link: "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/umhlanga_sunrise.jpg",
+            //Playa atardecer
+            sound : "gentle-ocean-waves-birdsong-and-gull-7109.mp3"
+          },
+        ];
+        
+        var userPosition = new THREE.Vector3(0, 2, 4);
+        var radius = 7;
+        
+          
+          var Sol = document.getElementById("Sol");
+          Sol.setAttribute("position", "0 8 5");
+          Sol.setAttribute("radius", "2");
+          Sol.setAttribute("src", "https://cdn.glitch.me/d558c128-2ed0-4284-a0da-4d18b9163ad6%2F1024px-Map_of_the_full_sun.jpg");
+
+        for (var i = 0; i < spheresData.length; i++) {
+          var angle = (i / spheresData.length) * Math.PI * 2;
+          var x = userPosition.x + radius * Math.sin(angle);
+          var z = userPosition.z + radius * Math.cos(angle);
+
+          spheresData[i].position = x + ' 2 ' + z;
+        }
+
+        for (var i = 0; i < spheresData.length; i++) {
+          var sphere = spheresData[i];
+          document.write(
+            '<a-sphere position="' +
+              sphere.position +
+              '" radius="' +
+              sphere.radius +
+              '" material="' +
+              sphere.material +
+              '" onclick="redirectToScene(\'' + sphere.link + '\', \'' + sphere.sound + '\')"></a-sphere>'
+          );
+        }
+
+        function solFuncion() {
+          var Sol = document.getElementById("Sol");
+          localStorage.setItem('selectedSphere', Sol.getAttribute("src"));
+          window.location.href = 'scene2.html';
+        }
+
+        function redirectToScene(link, sound) {  
+          localStorage.setItem('selectedSphere', link);
+          localStorage.setItem('selectedSphereSound',sound);
+          window.location.href = 'scene2.html';          
+        }
+
+      </script>
+
+      <!-- Esfera Principal (space) -->
+      <a-sky src="hermosa-foto-cielo-nocturno-estrellado.jpg"></a-sky>
+      <!--<a-sound src="a-space-journey-through-the-solar-system-153272.mp3" autoplay="true" loop="true" allow = "autoplay"></a-sound>-->
+    </a-scene>
+  </body>
+</html>

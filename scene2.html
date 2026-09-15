@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-sky id="selected-sphere"></a-sky>
+      <a-sound id="sound-sphere" autoplay="true" loop="true" allow = "autoplay"></a-sound>
+    </a-scene>
+
+    <script>
+      window.onload = function () {
+        var selectedSphereUrl = localStorage.getItem('selectedSphere');
+        var sphereEntity = document.getElementById('selected-sphere');
+        sphereEntity.setAttribute('src', selectedSphereUrl);
+
+        var sphereSound = localStorage.getItem('selectedSphereSound');
+        var soundEntity = document.getElementById('sound-sphere');
+        soundEntity.setAttribute('src', sphereSound);
+      };
+    </script>
+  </body>
+</html>
