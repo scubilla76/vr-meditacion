@@ -2,6 +2,7 @@
   "name": "VR Meditación",
   "short_name": "VRMeditacion",
   "description": "Experiencia de meditación inmersiva en realidad virtual.",
+  "id": "./",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
